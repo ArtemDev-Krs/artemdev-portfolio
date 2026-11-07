@@ -856,7 +856,7 @@
       <form id="contact-form" class="reveal" data-delay="2" novalidate>
         <div class="form-row">
           <input type="text" id="f-name" placeholder="Ваше имя *" autocomplete="name">
-          <input type="email" id="f-email" placeholder="Email *" autocomplete="email">
+          <input type="text" id="f-email" placeholder="Email или @username Telegram *" autocomplete="email">
         </div>
         <input type="text" id="f-subject" placeholder="Тема сообщения">
         <textarea id="f-msg" rows="5" placeholder="Расскажите о задаче... *"></textarea>
@@ -1972,19 +1972,28 @@ window.fireConfetti = function(){
     [name, email, text].forEach(f => f.classList.remove('invalid'));
     let bad = [];
     if(name.value.trim().length < 2) bad.push(name);
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) bad.push(email);
+    const contactVal = email.value.trim().replace(/^@/, '');
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contactVal);
+    const isTg = !contactVal.includes('@') && /^[A-Za-z0-9_]{5,32}$/.test(contactVal);
+    if(!isEmail && !isTg) bad.push(email);
     if(text.value.trim().length < 10) bad.push(text);
     if(bad.length){
       bad.forEach(f => f.classList.add('invalid'));
       msg.className = 'form-msg err';
-      msg.textContent = '⚠ Проверьте выделенные поля: имя, корректный email и сообщение (мин. 10 символов).';
+      msg.textContent = '⚠ Проверьте выделенные поля: имя, корректный email или @username Telegram и сообщение (мин. 10 символов).';
       return;
     }
 
     const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const contactLine = isEmail
+      ? '📧 Email: ' + esc(contactVal)
+      : '✈️ Telegram: @' + esc(contactVal);
+    const replyText = isEmail
+      ? 'отвечу на почту в течение дня'
+      : 'отвечу в Telegram супербыстро ⚡';
     const body = '📩 <b>Новая заявка с сайта</b>\n' +
       '👤 Имя: ' + esc(name.value.trim()) + '\n' +
-      '📧 Email: ' + esc(email.value.trim()) + '\n' +
+      contactLine + '\n' +
       (subj.value.trim() ? '📌 Тема: ' + esc(subj.value.trim()) + '\n' : '') +
       '💬 Сообщение:\n' + esc(text.value.trim());
 
@@ -2005,7 +2014,7 @@ window.fireConfetti = function(){
       btn.textContent = oldLabel;
       if(res.ok){
         msg.className = 'form-msg ok';
-        msg.textContent = '✅ Спасибо, ' + name.value.trim() + '! Заявка улетела — отвечу вам на почту в течение дня.';
+        msg.textContent = '✅ Спасибо, ' + name.value.trim() + '! Заявка улетела — ' + replyText + '.';
         form.reset();
         if(window.fireConfetti) window.fireConfetti();
       } else {
