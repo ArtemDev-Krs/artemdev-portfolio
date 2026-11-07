@@ -229,6 +229,18 @@
     font-size:.72rem;padding:4px 10px;border-radius:6px;
     background:rgba(79,140,255,.12);color:#9ec1ff;
   }
+  .project-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .proj-flag{
+    position:absolute;top:12px;left:12px;z-index:2;padding:4px 11px;border-radius:8px;
+    background:rgba(45,212,191,.16);border:1px solid rgba(45,212,191,.45);
+    color:var(--accent-3);font-size:.68rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  }
+  .proj-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .proj-links a{
+    font-size:.78rem;font-weight:600;color:#9ec1ff;padding:6px 13px;border-radius:9px;
+    background:rgba(79,140,255,.1);border:1px solid rgba(79,140,255,.25);transition:.25s;
+  }
+  .proj-links a:hover{background:rgba(79,140,255,.24);transform:translateY(-2px);border-color:rgba(79,140,255,.5)}
 
   /* ============ КОНТАКТЫ ============ */
   .contact-wrap{
@@ -685,57 +697,64 @@
     </div>
     <div class="filters reveal">
       <button class="filter-btn active" data-f="all">Все</button>
-      <button class="filter-btn" data-f="web">Веб-сайты</button>
       <button class="filter-btn" data-f="app">Приложения</button>
-      <button class="filter-btn" data-f="api">API / Бэкенд</button>
+      <button class="filter-btn" data-f="bot">Telegram-боты</button>
+      <button class="filter-btn" data-f="web">Сайты</button>
     </div>
     <div class="projects-grid" id="projects-grid">
-      <article class="project reveal" data-cat="web">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">🛒</div>
+      <article class="project reveal" data-cat="app">
+        <div class="project-thumb">
+          <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/speak-to-text/screenshots/recording.png" alt="Speak to Text — индикатор записи" loading="lazy">
+          <span class="proj-flag">в разработке</span>
+        </div>
         <div class="project-body">
-          <h3>Интернет-магазин «Вектор»</h3>
-          <p>Полноценный e-commerce: корзина, оплата, личный кабинет. Рост конверсии на 34% после запуска.</p>
-          <div class="tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">PostgreSQL</span></div>
+          <h3>🎙️ Speak to Text</h3>
+          <p>Голосовой ввод с ИИ для Windows: жмёшь Alt+V — речь печатается в любом приложении, а LLM тут же шлифует текст. Распознавание локально, на faster-whisper.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">faster-whisper</span><span class="tag">LLM</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/ArtemDev-Krs/speak-to-text" target="_blank" rel="noopener">Код ↗</a>
+            <a href="https://github.com/ArtemDev-Krs/speak-to-text/releases/tag/v0.1.0" target="_blank" rel="noopener">Релиз v0.1.0 ↗</a>
+          </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="app" data-delay="1">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#0d9488,#2563eb)">📊</div>
+      <article class="project reveal" data-cat="bot" data-delay="1">
+        <div class="project-thumb">
+          <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/lzt-bot/screenshots/stats.png" alt="Lzt_bot — статистика и баланс" loading="lazy">
+        </div>
         <div class="project-body">
-          <h3>Дашборд аналитики</h3>
-          <p>Real-time панель с графиками и уведомлениями для команды маркетинга. WebSocket-обновления без перезагрузки.</p>
-          <div class="tags"><span class="tag">Vue</span><span class="tag">D3.js</span><span class="tag">WebSockets</span></div>
+          <h3>🤖 Lzt_bot</h3>
+          <p>Telegram-бот автовыкупа лотов на LolzTeam Market: мониторит цены по лимиту, выкупает даже ночью, шлёт статистику и отчёт по каждой покупке.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">aiogram</span><span class="tag">Telegram API</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/ArtemDev-Krs/portfolio#readme" target="_blank" rel="noopener">Подробнее ↗</a>
+          </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="api" data-delay="2">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#b45309,#dc2626)">🔌</div>
+      <article class="project reveal" data-cat="app" data-delay="2">
+        <div class="project-thumb">
+          <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/zcode-accounts/screenshots/main.png" alt="ZCode Аккаунты — окно утилиты" loading="lazy">
+        </div>
         <div class="project-body">
-          <h3>API сервиса доставки</h3>
-          <p>REST API на 40+ эндпоинтов: заказы, трекинг, интеграция с картами. Нагрузка — 1200 rps.</p>
-          <div class="tags"><span class="tag">FastAPI</span><span class="tag">Redis</span><span class="tag">Docker</span></div>
+          <h3>🧰 ZCode Аккаунты</h3>
+          <p>Несколько аккаунтов ZCode и переключение в один клик: приложение само перезапускается и входит в нужный аккаунт. Сессии шифруются AES-GCM.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">AES-GCM</span><span class="tag">Windows</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/ArtemDev-Krs/zcode-accounts" target="_blank" rel="noopener">Код ↗</a>
+            <a href="https://github.com/ArtemDev-Krs/zcode-accounts/releases/latest" target="_blank" rel="noopener">Скачать v1.0 ↗</a>
+          </div>
         </div>
       </article>
       <article class="project reveal" data-cat="web" data-delay="3">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#be185d,#7c3aed)">🎬</div>
-        <div class="project-body">
-          <h3>Лендинг киностудии</h3>
-          <p>Анимированный одностраничник с параллаксом и видео-фоном. Победил в конкурсе сайта месяца.</p>
-          <div class="tags"><span class="tag">HTML/CSS</span><span class="tag">GSAP</span><span class="tag">JS</span></div>
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">
+          <span style="position:relative;z-index:1;font-size:4.2rem">💈</span>
         </div>
-      </article>
-      <article class="project reveal" data-cat="app" data-delay="4">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#059669,#0891b2)">✅</div>
         <div class="project-body">
-          <h3>Трекер задач «Фокус»</h3>
-          <p>Kanban-доска с drag-n-drop, статистикой и тёмной темой. 2000+ активных пользователей.</p>
-          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">MongoDB</span></div>
-        </div>
-      </article>
-      <article class="project reveal" data-cat="api" data-delay="4">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#4f46e5,#9333ea)">🤖</div>
-        <div class="project-body">
-          <h3>Telegram-бот расписания</h3>
-          <p>Бот для университета: пары, напоминания, изменения. 5000 студентов ежедневно.</p>
-          <div class="tags"><span class="tag">Python</span><span class="tag">aiogram</span><span class="tag">SQLite</span></div>
+          <h3>🌐 Blade &amp; Co.</h3>
+          <p>Лендинг барбершопа на чистом HTML/CSS/JS: скролл-анимации, параллакс, кастомный курсор и поддержка prefers-reduced-motion.</p>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+          <div class="proj-links">
+            <a href="https://github.com/ArtemDev-Krs/barber-demo" target="_blank" rel="noopener">Код ↗</a>
+          </div>
         </div>
       </article>
     </div>
