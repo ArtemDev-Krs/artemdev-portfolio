@@ -1955,11 +1955,16 @@ window.fireConfetti = function(){
   }));
 })();
 
-/* ============ ФОРМА (демо-валидация) ============ */
+/* ============ ФОРМА: отправка заявки в Telegram ============ */
 (function(){
+  const TG_TOKEN = '9069909842:AAGOuBt5pAJG8mTm_GoI9sR8BgBESFFbvpo';
+  const TG_CHAT = '1824990126';
   const form = document.getElementById('contact-form'),
-        msg = document.getElementById('form-msg');
-  form.addEventListener('submit', e => {
+        msg = document.getElementById('form-msg'),
+        btn = form.querySelector('button[type="submit"]'),
+        subj = form.querySelector('#f-subject');
+
+  form.addEventListener('submit', function(e){
     e.preventDefault();
     const name = form.querySelector('#f-name'),
           email = form.querySelector('#f-email'),
@@ -1975,10 +1980,45 @@ window.fireConfetti = function(){
       msg.textContent = '⚠ Проверьте выделенные поля: имя, корректный email и сообщение (мин. 10 символов).';
       return;
     }
-    msg.className = 'form-msg ok';
-    msg.textContent = '✅ Спасибо, ' + name.value.trim() + '! Сообщение отправлено (демо-режим — подключите бэкенд или Formspree).';
-    form.reset();
-    if(window.fireConfetti) window.fireConfetti();
+
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const body = '📩 <b>Новая заявка с сайта</b>\n' +
+      '👤 Имя: ' + esc(name.value.trim()) + '\n' +
+      '📧 Email: ' + esc(email.value.trim()) + '\n' +
+      (subj.value.trim() ? '📌 Тема: ' + esc(subj.value.trim()) + '\n' : '') +
+      '💬 Сообщение:\n' + esc(text.value.trim());
+
+    const oldLabel = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Отправляю... ⏳';
+    msg.className = 'form-msg';
+    msg.textContent = '';
+
+    fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: TG_CHAT, text: body, parse_mode: 'HTML'})
+    })
+    .then(r => r.json())
+    .then(function(res){
+      btn.disabled = false;
+      btn.textContent = oldLabel;
+      if(res.ok){
+        msg.className = 'form-msg ok';
+        msg.textContent = '✅ Спасибо, ' + name.value.trim() + '! Заявка улетела — отвечу вам на почту в течение дня.';
+        form.reset();
+        if(window.fireConfetti) window.fireConfetti();
+      } else {
+        msg.className = 'form-msg err';
+        msg.textContent = '⚠ Не удалось отправить: ' + (res.description || 'ошибка Telegram API');
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = oldLabel;
+      msg.className = 'form-msg err';
+      msg.textContent = '⚠ Сеть недоступна или Telegram заблокирован. Напишите напрямую: @artemdeveloperIT';
+    });
   });
 })();
 
