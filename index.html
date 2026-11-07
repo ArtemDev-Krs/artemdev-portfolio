@@ -747,6 +747,21 @@
           </div>
         </div>
       </article>
+      <article class="project reveal" data-cat="app" data-key="dash" data-delay="4">
+        <div class="project-thumb">
+          <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/dashboard/screenshots/main.png" alt="Дашборд — погода, валюты, крипта" loading="lazy">
+          <span class="proj-flag">веб-приложение</span>
+        </div>
+        <div class="project-body">
+          <h3>📊 Dashboard</h3>
+          <p>Живой дашборд: погода Красноярска на 7 дней, курсы валют, крипта и график BTC/RUB на canvas. Тёмная и светлая темы.</p>
+          <div class="tags"><span class="tag">JavaScript</span><span class="tag">Canvas</span><span class="tag">API</span></div>
+          <div class="proj-links">
+            <a href="https://artemdev-krs.github.io/dashboard/" target="_blank" rel="noopener">Сайт ↗</a>
+            <a href="https://github.com/ArtemDev-Krs/dashboard" target="_blank" rel="noopener">Код ↗</a>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -2150,6 +2165,25 @@ window.fireConfetti = function(){
       links: [
         {t:'Открыть сайт ↗', u:'https://artemdev-krs.github.io/barber-demo/'},
         {t:'Код ↗', u:'https://github.com/ArtemDev-Krs/barber-demo'}
+      ]
+    },
+    dash: {
+      title: '📊 Dashboard',
+      flag: '',
+      desc: 'Живой дашборд с реальными данными без API-ключей: погода Красноярска, курсы валют, крипта и график Bitcoin, нарисованный на canvas.',
+      features: [
+        'Погода Красноярска на 7 дней (Open-Meteo)',
+        'Курсы USD / EUR / CNY со стрелками изменения за день',
+        'Bitcoin, Ethereum, Tether — в рублях и долларах',
+        'График BTC/RUB за 7 дней на чистом canvas',
+        'Тёмная и светлая темы, живые часы, кнопка обновления'
+      ],
+      tags: ['JavaScript', 'Canvas', 'API'],
+      images: ['https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/dashboard/screenshots/main.png'],
+      alts: ['Дашборд — погода, валюты, крипта'],
+      links: [
+        {t:'Открыть дашборд ↗', u:'https://artemdev-krs.github.io/dashboard/'},
+        {t:'Код ↗', u:'https://github.com/ArtemDev-Krs/dashboard'}
       ]
     }
   };
