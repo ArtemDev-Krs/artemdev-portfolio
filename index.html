@@ -241,6 +241,71 @@
     background:rgba(79,140,255,.1);border:1px solid rgba(79,140,255,.25);transition:.25s;
   }
   .proj-links a:hover{background:rgba(79,140,255,.24);transform:translateY(-2px);border-color:rgba(79,140,255,.5)}
+  .project{cursor:pointer}
+  .pm-hint{
+    position:absolute;bottom:12px;right:14px;z-index:2;font-size:.68rem;color:rgba(255,255,255,.75);
+    background:rgba(10,14,23,.65);padding:4px 10px;border-radius:8px;pointer-events:none;
+  }
+
+  /* ============ МОДАЛКА ПРОЕКТА ============ */
+  .proj-modal{
+    position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
+    padding:22px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
+  }
+  .proj-modal.open{opacity:1;visibility:visible}
+  .pm-backdrop{
+    position:absolute;inset:0;background:rgba(4,7,14,.82);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  }
+  .pm-window{
+    position:relative;width:min(880px,100%);max-height:calc(100vh - 44px);overflow-y:auto;
+    background:var(--card);border:1px solid rgba(79,140,255,.3);border-radius:18px;
+    box-shadow:0 40px 110px rgba(0,0,0,.75);
+    transform:translateY(26px) scale(.96);transition:transform .35s cubic-bezier(.2,.7,.3,1);
+  }
+  .proj-modal.open .pm-window{transform:none}
+  .pm-close{
+    position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--border);background:rgba(10,14,23,.75);color:var(--text);
+    font-size:1rem;cursor:pointer;transition:.25s;
+  }
+  .pm-close:hover{background:rgba(255,84,112,.22);border-color:#ff5470;transform:rotate(90deg)}
+  .pm-media{position:relative;background:#0b1020;border-bottom:1px solid var(--border)}
+  .pm-media img{width:100%;max-height:430px;object-fit:contain;display:block}
+  .pm-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;
+    border:1px solid var(--border);background:rgba(10,14,23,.78);color:var(--text);
+    font-size:1.25rem;cursor:pointer;transition:.25s;z-index:2;
+  }
+  .pm-nav:hover{background:var(--accent);border-color:var(--accent)}
+  .pm-prev{left:14px}
+  .pm-next{right:14px}
+  .pm-dots{display:flex;gap:8px;justify-content:center;padding:10px 0 12px}
+  .pm-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:.25s}
+  .pm-dots i.on{background:var(--accent);transform:scale(1.3)}
+  .pm-flag{
+    display:inline-block;margin-bottom:10px;padding:4px 12px;border-radius:8px;
+    background:rgba(45,212,191,.16);border:1px solid rgba(45,212,191,.45);
+    color:var(--accent-3);font-size:.68rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+  }
+  .pm-body{padding:26px 30px 30px}
+  .pm-body h3{font-size:1.5rem;margin-bottom:12px}
+  .pm-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .pm-tags span{font-size:.72rem;padding:4px 11px;border-radius:7px;background:rgba(79,140,255,.12);color:#9ec1ff}
+  .pm-body p{color:var(--muted);margin-bottom:16px}
+  .pm-body ul{list-style:none;display:grid;gap:9px;margin-bottom:20px}
+  .pm-body ul li{padding-left:24px;position:relative;color:var(--text);font-size:.92rem}
+  .pm-body ul li::before{content:'▹';position:absolute;left:2px;color:var(--accent)}
+  .pm-links{display:flex;gap:12px;flex-wrap:wrap}
+  .pm-links a{
+    font-size:.85rem;font-weight:600;color:#9ec1ff;padding:9px 18px;border-radius:10px;
+    background:rgba(79,140,255,.1);border:1px solid rgba(79,140,255,.3);transition:.25s;
+  }
+  .pm-links a:hover{background:rgba(79,140,255,.24);transform:translateY(-2px);border-color:rgba(79,140,255,.55)}
+  @media(max-width:640px){
+    .pm-body{padding:20px}
+    .pm-media img{max-height:250px}
+  }
 
   /* ============ КОНТАКТЫ ============ */
   .contact-wrap{
@@ -541,9 +606,8 @@
   <div class="container nav">
     <a href="#hero" class="logo">Artem<span>Dev</span></a>
     <ul class="nav-links" id="nav-links">
-      <li><a href="#about">Обо мне</a></li>
-      <li><a href="#skills">Навыки</a></li>
       <li><a href="#projects">Проекты</a></li>
+      <li><a href="#skills">Навыки</a></li>
       <li><a href="#contact">Контакты</a></li>
     </ul>
     <button class="burger" id="burger" aria-label="Меню">
@@ -587,7 +651,7 @@
       </div>
     </div>
   </div>
-  <a href="#about" class="scroll-hint">⌄</a>
+  <a href="#projects" class="scroll-hint">⌄</a>
 </section>
 
 <div class="marquee" aria-hidden="true">
@@ -596,55 +660,6 @@
     <span>React <i>◆</i> TypeScript <i>◆</i> Node.js <i>◆</i> Python <i>◆</i> Telegram-боты <i>◆</i> Docker <i>◆</i> Three.js <i>◆</i> PostgreSQL <i>◆</i> GSAP <i>◆</i> Redis <i>◆</i></span>
   </div>
 </div>
-
-<!-- ============ ОБО МНЕ ============ -->
-<section id="about">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="kicker">Обо мне</span>
-      <h2>Чем я могу быть полезен</h2>
-    </div>
-    <div class="about-grid">
-      <div class="info-card reveal" data-delay="1">
-        <span class="icon">💻</span>
-        <h3>Веб-разработка</h3>
-        <p>Сайты, лендинги и SPA-приложения: React, Vue, TypeScript. Быстро, адаптивно, с заботой о деталях.</p>
-      </div>
-      <div class="info-card reveal" data-delay="2">
-        <span class="icon">🤖</span>
-        <h3>Telegram-боты</h3>
-        <p>Боты любой сложности: магазины, записи, рассылки, оплаты, админ-панели. На aiogram с базой данных и админкой.</p>
-      </div>
-      <div class="info-card reveal" data-delay="3">
-        <span class="icon">⚙️</span>
-        <h3>Бэкенд и API</h3>
-        <p>Проектирую REST/API-сервисы на Node.js и Python, настраиваю базы данных и интеграции.</p>
-      </div>
-      <div class="info-card reveal" data-delay="1">
-        <span class="icon">🕷️</span>
-        <h3>Парсинг и автоматизация</h3>
-        <p>Скрипты на Python: сбор данных с сайтов, мониторинг цен, автозаполнение таблиц и отчёты по расписанию.</p>
-      </div>
-      <div class="info-card reveal" data-delay="2">
-        <span class="icon">🧠</span>
-        <h3>Интеграции ИИ</h3>
-        <p>Подключаю нейросети в ботов и приложения: умные ассистенты, генерация текста и изображений через API.</p>
-      </div>
-      <div class="info-card reveal" data-delay="3">
-        <span class="icon">🚀</span>
-        <h3>Деплой и DevOps</h3>
-        <p>Docker, CI/CD, мониторинг. Довожу проект до продакшена и не бросаю после запуска.</p>
-      </div>
-    </div>
-    <div class="code-window reveal" data-delay="3">
-      <div class="code-head">
-        <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
-        <span>artemdev.js — Красноярск</span>
-      </div>
-      <div class="code-body" id="code-body"><span class="code-caret"></span></div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ НАВЫКИ ============ -->
 <section id="skills">
@@ -702,7 +717,7 @@
       <button class="filter-btn" data-f="web">Сайты</button>
     </div>
     <div class="projects-grid" id="projects-grid">
-      <article class="project reveal" data-cat="app">
+      <article class="project reveal" data-cat="app" data-key="speak">
         <div class="project-thumb">
           <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/speak-to-text/screenshots/recording.png" alt="Speak to Text — индикатор записи" loading="lazy">
           <span class="proj-flag">в разработке</span>
@@ -717,7 +732,7 @@
           </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="bot" data-delay="1">
+      <article class="project reveal" data-cat="bot" data-key="lzt" data-delay="1">
         <div class="project-thumb">
           <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/lzt-bot/screenshots/stats.png" alt="Lzt_bot — статистика и баланс" loading="lazy">
         </div>
@@ -730,7 +745,7 @@
           </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="app" data-delay="2">
+      <article class="project reveal" data-cat="app" data-key="zcode" data-delay="2">
         <div class="project-thumb">
           <img src="https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/zcode-accounts/screenshots/main.png" alt="ZCode Аккаунты — окно утилиты" loading="lazy">
         </div>
@@ -744,7 +759,7 @@
           </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="web" data-delay="3">
+      <article class="project reveal" data-cat="web" data-key="blade" data-delay="3">
         <div class="project-thumb" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">
           <span style="position:relative;z-index:1;font-size:4.2rem">💈</span>
         </div>
@@ -757,6 +772,13 @@
           </div>
         </div>
       </article>
+    </div>
+    <div class="code-window reveal" data-delay="3">
+      <div class="code-head">
+        <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+        <span>artemdev.js — Красноярск</span>
+      </div>
+      <div class="code-body" id="code-body"><span class="code-caret"></span></div>
     </div>
   </div>
 </section>
@@ -806,6 +828,28 @@
     © 2026 Артём Булыгин · ArtemDev · Сделано с <span class="heart">♥</span> и чистым кодом
   </div>
 </footer>
+
+<div class="proj-modal" id="proj-modal" aria-hidden="true">
+  <div class="pm-backdrop" id="pm-backdrop"></div>
+  <div class="pm-window" role="dialog" aria-modal="true">
+    <button class="pm-close" id="pm-close" aria-label="Закрыть">✕</button>
+    <div class="pm-media" id="pm-media">
+      <img id="pm-img" src="" alt="">
+      <button class="pm-nav pm-prev" id="pm-prev" aria-label="Предыдущий скриншот">‹</button>
+      <button class="pm-nav pm-next" id="pm-next" aria-label="Следующий скриншот">›</button>
+      <span class="pm-hint">скриншот — листайте ‹ ›</span>
+      <div class="pm-dots" id="pm-dots"></div>
+    </div>
+    <div class="pm-body">
+      <span class="pm-flag" id="pm-flag" style="display:none"></span>
+      <h3 id="pm-title"></h3>
+      <div class="pm-tags" id="pm-tags"></div>
+      <p id="pm-desc"></p>
+      <ul id="pm-features"></ul>
+      <div class="pm-links" id="pm-links"></div>
+    </div>
+  </div>
+</div>
 
 <button id="to-top" aria-label="Наверх">↑</button>
 
@@ -1891,6 +1935,151 @@ window.fireConfetti = function(){
     msg.textContent = '✅ Спасибо, ' + name.value.trim() + '! Сообщение отправлено (демо-режим — подключите бэкенд или Formspree).';
     form.reset();
     if(window.fireConfetti) window.fireConfetti();
+  });
+})();
+
+/* ============ МОДАЛКА ПРОЕКТА: подробное описание + большие скриншоты ============ */
+(function(){
+  const RAW = 'https://raw.githubusercontent.com/ArtemDev-Krs/portfolio/main/';
+  const PROJECTS = {
+    speak: {
+      title: '🎙️ Speak to Text',
+      flag: 'в разработке',
+      desc: 'Windows-утилита голосового ввода с ИИ-редактированием: говоришь в микрофон — речь превращается в текст прямо в любом приложении, а LLM тут же предлагает улучшить формулировку.',
+      features: [
+        'Alt+V в любом приложении — речь потоково печатается в активное поле',
+        'ИИ-редактура после диктовки: исправление ошибок, деловой/дружелюбный стиль, своя инструкция',
+        'Распознавание локально: faster-whisper (large-v3-turbo на CUDA)',
+        'LLM через OpenAI-совместимый API — LM Studio локально или облако',
+        'Упаковано в standalone-приложение'
+      ],
+      tags: ['Python', 'PySide6', 'faster-whisper', 'LLM'],
+      images: [RAW + 'speak-to-text/screenshots/recording.png', RAW + 'speak-to-text/screenshots/ai-edit.png'],
+      alts: ['Индикатор записи', 'ИИ-редактура диктовки'],
+      links: [
+        {t:'Код ↗', u:'https://github.com/ArtemDev-Krs/speak-to-text'},
+        {t:'Релиз v0.1.0 ↗', u:'https://github.com/ArtemDev-Krs/speak-to-text/releases/tag/v0.1.0'}
+      ]
+    },
+    lzt: {
+      title: '🤖 Lzt_bot',
+      flag: '',
+      desc: 'Telegram-бот, который мониторит LolzTeam Market и сам выкупает лоты по заданному ценовому лимиту. Все отчёты присылает прямо в Telegram.',
+      features: [
+        'Автовыкуп лотов по ценовому лимиту — работает даже ночью',
+        'Следит за балансом и показывает, на сколько покупок его хватит',
+        'Статистика: сколько куплено, средняя цена, топ продавцов',
+        'Аналитика по времени: в какие часы чаще появляются лоты и проходят покупки',
+        'По каждой покупке — карточка с лотом, ценой, продавцом и данными аккаунта',
+        'Если выкупить не удалось — тоже сообщит'
+      ],
+      tags: ['Python', 'aiogram', 'Telegram API'],
+      images: [RAW + 'lzt-bot/screenshots/stats.png', RAW + 'lzt-bot/screenshots/purchase.png'],
+      alts: ['Статистика и баланс', 'Отчёт о покупке'],
+      links: [{t:'Подробнее в портфолио ↗', u:'https://github.com/ArtemDev-Krs/portfolio#readme'}]
+    },
+    zcode: {
+      title: '🧰 ZCode Аккаунты',
+      flag: '',
+      desc: 'Windows-утилита: несколько аккаунтов ZCode и переключение между ними в один клик — без ручных «выйти / войти через Google».',
+      features: [
+        'Клик по аккаунту — ZCode сам закрывается, переключается и открывается уже вошедшим',
+        'Карточка текущего аккаунта и список всех сохранённых аккаунтов',
+        'Сохранение текущего аккаунта под именем, вход в новый аккаунт через Google',
+        'Снимки сессий шифруются (AES-GCM), токены автообновляются при каждом переключении',
+        'Автономный exe без установки'
+      ],
+      tags: ['Python', 'AES-GCM', 'Windows'],
+      images: [RAW + 'zcode-accounts/screenshots/main.png'],
+      alts: ['Окно ZCode Аккаунты'],
+      links: [
+        {t:'Код ↗', u:'https://github.com/ArtemDev-Krs/zcode-accounts'},
+        {t:'Скачать v1.0 ↗', u:'https://github.com/ArtemDev-Krs/zcode-accounts/releases/latest'}
+      ]
+    },
+    blade: {
+      title: '🌐 Blade & Co.',
+      flag: '',
+      desc: 'Лендинг барбершопа на чистых HTML/CSS/JS. Портфолиный проект — сделан, чтобы показать владение анимациями без библиотек.',
+      features: [
+        'Скролл-анимации и параллакс-эффекты',
+        'Кастомный курсор',
+        'Поддержка prefers-reduced-motion'
+      ],
+      tags: ['HTML', 'CSS', 'JavaScript'],
+      images: [],
+      alts: [],
+      links: [{t:'Код ↗', u:'https://github.com/ArtemDev-Krs/barber-demo'}]
+    }
+  };
+
+  const modal = document.getElementById('proj-modal'),
+        pmImg = document.getElementById('pm-img'),
+        pmMedia = document.getElementById('pm-media'),
+        pmDots = document.getElementById('pm-dots'),
+        pmPrev = document.getElementById('pm-prev'),
+        pmNext = document.getElementById('pm-next');
+  let curImages = [], curAlts = [], curIdx = 0;
+
+  function showImg(idx){
+    curIdx = (idx + curImages.length) % curImages.length;
+    pmImg.src = curImages[curIdx];
+    pmImg.alt = curAlts[curIdx] || '';
+    pmDots.querySelectorAll('i').forEach(function(d, i){
+      d.classList.toggle('on', i === curIdx);
+    });
+  }
+  function buildGallery(images, alts){
+    curImages = images; curAlts = alts || [];
+    pmDots.innerHTML = images.map(function(_, i){
+      return '<i data-i="' + i + '"' + (i === 0 ? ' class="on"' : '') + '></i>';
+    }).join('');
+    pmDots.querySelectorAll('i').forEach(function(d){
+      d.addEventListener('click', function(){ showImg(+d.dataset.i); });
+    });
+    pmImg.src = images[0] || '';
+    pmImg.alt = curAlts[0] || '';
+    pmMedia.style.display = images.length ? '' : 'none';
+  }
+  function openModal(key){
+    const p = PROJECTS[key];
+    if(!p) return;
+    document.getElementById('pm-title').textContent = p.title;
+    document.getElementById('pm-desc').textContent = p.desc;
+    const flag = document.getElementById('pm-flag');
+    flag.style.display = p.flag ? '' : 'none';
+    flag.textContent = p.flag || '';
+    document.getElementById('pm-tags').innerHTML = p.tags.map(function(t){ return '<span>' + t + '</span>'; }).join('');
+    document.getElementById('pm-features').innerHTML = p.features.map(function(f){ return '<li>' + f + '</li>'; }).join('');
+    document.getElementById('pm-links').innerHTML = p.links.map(function(l){
+      return '<a href="' + l.u + '" target="_blank" rel="noopener">' + l.t + '</a>';
+    }).join('');
+    buildGallery(p.images, p.alts);
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.project').forEach(function(card){
+    card.addEventListener('click', function(e){
+      if(e.target.closest('a')) return;
+      openModal(card.dataset.key);
+    });
+  });
+  document.getElementById('pm-close').addEventListener('click', closeModal);
+  document.getElementById('pm-backdrop').addEventListener('click', closeModal);
+  pmPrev.addEventListener('click', function(){ showImg(curIdx - 1); });
+  pmNext.addEventListener('click', function(){ showImg(curIdx + 1); });
+  addEventListener('keydown', function(e){
+    if(!modal.classList.contains('open')) return;
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowLeft') showImg(curIdx - 1);
+    if(e.key === 'ArrowRight') showImg(curIdx + 1);
   });
 })();
 </script>
