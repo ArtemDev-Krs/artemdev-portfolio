@@ -718,15 +718,16 @@
           </div>
         </div>
       </article>
-      <article class="project reveal" data-cat="web" data-key="blade" data-delay="3">
-        <div class="project-thumb" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed)">
-          <span style="position:relative;z-index:1;font-size:4.2rem">💈</span>
+      <article class="project reveal" data-cat="web" data-delay="3" data-url="https://artemdev-krs.github.io/barber-demo/">
+        <div class="project-thumb">
+          <img src="https://raw.githubusercontent.com/ArtemDev-Krs/artemdev-portfolio/main/images/barber-demo.png" alt="Blade & Co. — лендинг барбершопа" loading="lazy">
         </div>
         <div class="project-body">
           <h3>🌐 Blade &amp; Co.</h3>
           <p>Лендинг барбершопа на чистом HTML/CSS/JS: скролл-анимации, параллакс, кастомный курсор и поддержка prefers-reduced-motion.</p>
           <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
           <div class="proj-links">
+            <a href="https://artemdev-krs.github.io/barber-demo/" target="_blank" rel="noopener">Сайт ↗</a>
             <a href="https://github.com/ArtemDev-Krs/barber-demo" target="_blank" rel="noopener">Код ↗</a>
           </div>
         </div>
@@ -2050,9 +2051,12 @@ window.fireConfetti = function(){
         'Поддержка prefers-reduced-motion'
       ],
       tags: ['HTML', 'CSS', 'JavaScript'],
-      images: [],
-      alts: [],
-      links: [{t:'Код ↗', u:'https://github.com/ArtemDev-Krs/barber-demo'}]
+      images: ['https://raw.githubusercontent.com/ArtemDev-Krs/artemdev-portfolio/main/images/barber-demo.png'],
+      alts: ['Лендинг Blade & Co.'],
+      links: [
+        {t:'Открыть сайт ↗', u:'https://artemdev-krs.github.io/barber-demo/'},
+        {t:'Код ↗', u:'https://github.com/ArtemDev-Krs/barber-demo'}
+      ]
     }
   };
 
@@ -2111,6 +2115,10 @@ window.fireConfetti = function(){
   document.querySelectorAll('.project').forEach(function(card){
     card.addEventListener('click', function(e){
       if(e.target.closest('a')) return;
+      if(card.dataset.url){
+        window.open(card.dataset.url, '_blank', 'noopener');
+        return;
+      }
       openModal(card.dataset.key);
     });
   });
